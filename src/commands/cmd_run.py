@@ -24,8 +24,6 @@ from src.lib.subprocess import Command
 def cli(ctx, path):
     """Run the tests for the Terraform modules and files"""
 
-    ctx.log("Running tests...")
-
     # Total count for successful and failed tests
     result_total = 0
 
@@ -61,5 +59,8 @@ def cli(ctx, path):
     destroy_result = tf_destroy(ctx, tf_command, tf_directory)
     result_total += destroy_result
 
-    # Show whether the test ran were succesful or failed
-    return_tftest_status(ctx, result_total)
+    # Output whether the test ran were succesful or failed
+    if result_total == 0:
+        ctx.log("TEST SUCCESSFUL")
+    else:
+        ctx.log("TEST FAILED", level="error")
