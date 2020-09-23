@@ -11,7 +11,6 @@ from src.lib import (
     tf_init,
     tf_apply,
     tf_destroy,
-    return_tftest_status,
 )
 from src.lib.subprocess import Command
 
