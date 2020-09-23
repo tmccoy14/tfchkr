@@ -8,6 +8,6 @@ setup(
     author_email="tuckermmccoy@gmail.com",
     keywords="terraform test python",
     packages=find_packages(exclude=["tests"]),
-    install_requires=["Click==7.0", "colorama==0.4.1",],
-    entry_points={"console_scripts": ["tfstate=src.main:cli"]},
+    install_requires=["Click==7.0", "colorama==0.4.3",],
+    entry_points={"console_scripts": ["tftest=src.main:cli"]},
 )
