@@ -19,8 +19,11 @@ from src.lib.subprocess import Command
 @click.option(
     "--path", "-p", required=True, help="Path to Terraform directory.",
 )
+@click.option(
+    "--var", required=False, multiple=True, help="Variables for Terraform files."
+)
 @pass_environment
-def cli(ctx, path):
+def cli(ctx, path, var):
     """Run the tests for the Terraform modules and files"""
 
     # Total count for successful and failed tests
@@ -47,15 +50,15 @@ def cli(ctx, path):
         tf_command = Command("terraform")
 
     # Run terraform init command to initialize a working directory
-    init_result = tf_init(ctx, tf_command, tf_directory)
+    init_result = tf_init(ctx, tf_command, tf_directory, var)
     result_total += init_result
 
     # Run terraform/terragrunt apply command to apply new resources or changes
-    apply_result = tf_apply(ctx, tf_command, tf_directory)
+    apply_result = tf_apply(ctx, tf_command, tf_directory, var)
     result_total += apply_result
 
     # Run terraform/terragrunt destroy to destroy the Terraform-managed infrastructure
-    destroy_result = tf_destroy(ctx, tf_command, tf_directory)
+    destroy_result = tf_destroy(ctx, tf_command, tf_directory, var)
     result_total += destroy_result
 
     # Output whether the test ran were succesful or failed
