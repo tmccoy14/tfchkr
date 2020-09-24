@@ -46,7 +46,7 @@ Once you have successfully installed Tftest, you can confirm by running `tftest`
 $ tftest
 Usage: tftest [OPTIONS] COMMAND [ARGS]...
 
-  tftest is a tool to run tests on Terraform modules and files.
+  tftest is a tool to run tests and compliance checks on Terraform modules and files.
 
 Options:
   --home DIRECTORY  Project folder to operate on.
@@ -58,13 +58,35 @@ Commands:
   run  Run the tests.
 ```
 
-Tftest only has one command, `tftest run`, that will run the tests on the specified Terraform modules or files. The command accepts two parameters, the path to the Terraform directory and variables needed for the Terraform files. Below are examples of how to use the command.
+Tftest has two commands, `tftest run test` and `tftest run compliance`, that will run the tests and compliance checks on the specified Terraform modules or files.
 
 ```sh
 $ tftest run --help
-Usage: tftest run [OPTIONS]
+Usage: tftest run [OPTIONS] COMMAND [ARGS]...
+
+  tftest test and compliance.
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  compliance  Run the compliance checks.
+  test        Run the tests.
+```
+
+#### TFTEST RUN TEST
+
+The `tftest run test` command accepts two parameters, the path to the Terraform directory and variables needed for the Terraform files.
+
+```sh
+$ tftest run test --help
+Usage: tftest run test [OPTIONS]
 
   Run the tests for the Terraform modules and files
+
+  Ex. tftest run test  -p path/to/tf_directory
+
+  Ex. tftest run test -p path/to/tf_directory --var key=value --var key=value
 
 Options:
   -p, --path TEXT  Path to Terraform directory.  [required]
@@ -74,7 +96,7 @@ Options:
 
 ```sh
 # Run tests with with path only
-$ tftest run -p examples/tf/tfstate
+$ tftest run test -p examples/tfstate
 Initializing modules...
 
 Initializing the backend...
@@ -130,7 +152,7 @@ DESTROY -- SUCCESS
 
 ```sh
 # Run tests with path and variables
-$ tftest run -p examples/tf/tfstate_variables --var stage=terra --var name=testing
+$ tftest run test -p examples/tfstate_variables --var stage=terra --var name=testing
 Initializing modules...
 
 Initializing the backend...
@@ -182,4 +204,33 @@ Passed checks: 3, Failed checks: 0
 INIT -- SUCCESS
 APPLY -- SUCCESS
 DESTROY -- SUCCESS
+```
+
+#### TFTEST RUN COMPLIANCE
+
+The `tftest run compliance` command accepts one parameter, the path to the Terraform directory. Below are examples of how to use the two commands.
+
+```sh
+$ tftest run compliance --help
+Usage: tftest run compliance [OPTIONS]
+
+  Run the compliance checks for the Terraform modules and files
+
+  Ex. tftest compliance -p path/to/tf_directory
+
+Options:
+  -p, --path TEXT  Path to Terraform directory.  [required]
+  --help           Show this message and exit.
+```
+
+```sh
+$ tftest run compliance -p examples/tfstate_variables
+terraform scan results:
+
+Passed checks: 1, Failed checks: 0, Skipped checks: 0
+
+Check: CKV_AWS_41: "Ensure no hard coded AWS access key and and secret key exists in provider"
+	PASSED for resource: aws.default
+	File: /main.tf:8-11
+	Guide: https://docs.bridgecrew.io/docs/bc_aws_secrets_5
 ```
