@@ -8,7 +8,7 @@
 
 ### Introduction
 
-Tftest is a Python Terraform testing framework that allows us to isolate our infrastructure as code to test. A lot of the time, we blindly create resources with Terraform hoping the init, apply, and destroy commands will work smoothly. We can now test this process before moving forward without throwing it over the wall hoping for the best. To run `tftest` you provide a path to the Terraform directory and optional variables for the Terraform files. Then `tftest` will run through the init, apply, output, and destroy commands. It logs each command and returns the results at the end whether they were successful or failed. This serves as a repeatable process that can be ran locally or with a CICD pipeline.
+Tftest is a Python Terraform testing framework that allows us to isolate our infrastructure as code to test for errors and compliance. A lot of the time, we blindly create resources with Terraform hoping the commands will work smoothly and security vulnerabilities are none. We can now test this process before moving forward without throwing it over the wall hoping for the best. With running `tftest` you can now test the Terraform code base for any syntax errors, as well as vulnerability errors. It logs each command and returns the results at the end whether they were successful or failed. This serves as a repeatable process that can be ran locally or with a CICD pipeline.
 
 ### Setup
 
@@ -58,7 +58,7 @@ Commands:
   run  Run the tests.
 ```
 
-Tftest has two commands, `tftest run test` and `tftest run compliance`, that will run the tests and compliance checks on the specified Terraform modules or files.
+Tftest `run` has two commands, `tftest run test` and `tftest run compliance`, that will run the tests and compliance checks on the specified Terraform modules or files.
 
 ```sh
 $ tftest run --help
