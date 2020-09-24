@@ -16,7 +16,13 @@ from src.lib import (
 from src.lib.subprocess import Command
 
 
-@click.command("run", short_help="Run the tests.")
+@click.group("run", short_help="Run the tests and compliance checks on Terraform file.")
+@pass_environment
+def cli(ctx):
+    """tftest test and compliance."""
+
+
+@cli.command("test", short_help="Run the tests.")
 @click.option(
     "--path", "-p", required=True, help="Path to Terraform directory.",
 )
@@ -24,7 +30,7 @@ from src.lib.subprocess import Command
     "--var", required=False, multiple=True, help="Variables for Terraform files."
 )
 @pass_environment
-def cli(ctx, path, var):
+def test(ctx, path, var):
     """Run the tests for the Terraform modules and files\n
        Ex. tftest run -p path/to/tf_directory\n
        Ex. tftest run -p path/to/tf_directory --var key=value --var key=value"""
@@ -89,3 +95,31 @@ def cli(ctx, path, var):
         ctx.log("DESTROY -- SUCCESS")
     else:
         ctx.log("DESTROY -- FAILED", level="error")
+
+
+@cli.command("compliance", short_help="Run the compliance checks.")
+@click.option(
+    "--path", "-p", required=True, help="Path to Terraform directory.",
+)
+@pass_environment
+def compliance(ctx, path):
+    """Run the compliance checks for the Terraform modules and files\n
+       Ex. tftest compliance -p path/to/tf_directory"""
+
+    # Setup command subprocess
+    checkov_command = Command("checkov")
+
+    tf_directory = os.path.join(path)
+    prefix_command = "cd {0} &&".format(tf_directory)
+
+    # terraform init on tfstate module
+    result = checkov_command.prefix_run(prefix_command, "-d .")
+
+    while result.poll() is None:
+        line = result.stdout.readline()
+        print(line.decode("utf-8").rstrip())
+
+    output, error = result.communicate()
+    if error:
+        ctx.log("Error: %s" % error.decode("utf-8"), level="error")
+    ctx.vlog("%s" % output.decode("utf-8"))
