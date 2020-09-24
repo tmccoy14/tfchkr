@@ -25,7 +25,9 @@ from src.lib.subprocess import Command
 )
 @pass_environment
 def cli(ctx, path, var):
-    """Run the tests for the Terraform modules and files"""
+    """Run the tests for the Terraform modules and files\n
+       Ex. tftest run -p path/to/tf_directory\n
+       Ex. tftest run -p path/to/tf_directory --var key=value --var key=value"""
 
     # Ensure path provided to Terraform directory exists
     tf_directory = os.path.join(path)
