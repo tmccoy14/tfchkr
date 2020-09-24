@@ -89,10 +89,10 @@ def tf_destroy(ctx, tf_command, tf_directory, var):
     if var:
         vars = generate_variables_string(var)
         process = tf_command.prefix_run(
-            prefix_command, "apply -auto-approve {}".format(vars)
+            prefix_command, "destroy -auto-approve {}".format(vars)
         )
     else:
-        process = tf_command.prefix_run(prefix_command, "apply -auto-approve")
+        process = tf_command.prefix_run(prefix_command, "destroy -auto-approve")
 
     while process.poll() is None:
         line = process.stdout.readline()
