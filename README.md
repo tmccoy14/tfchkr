@@ -46,7 +46,7 @@ Once you have successfully installed tfchkr, you can confirm by running `tfchkr`
 $ tfchkr
 Usage: tfchkr [OPTIONS] COMMAND [ARGS]...
 
-  tfchkr is a tool to run tests and compliance checks on Terraform modules and files.
+  tfchkr is a tool to run tests on Terraform modules and files.
 
 Options:
   --home DIRECTORY  Project folder to operate on.
@@ -55,7 +55,7 @@ Options:
   --help            Show this message and exit.
 
 Commands:
-  run  Run the tests.
+  run  Run the tests and compliance checks on Terraform file.
 ```
 
 tfchkr `run` has two commands, `tfchkr run test` and `tfchkr run compliance`, that will run the tests and compliance checks on the specified Terraform modules or files.
@@ -84,9 +84,9 @@ Usage: tfchkr run test [OPTIONS]
 
   Run the tests for the Terraform modules and files
 
-  Ex. tfchkr run test  -p path/to/tf_directory
+  Ex. tfchkr run -p path/to/tf_directory
 
-  Ex. tfchkr run test -p path/to/tf_directory --var key=value --var key=value
+  Ex. tfchkr run -p path/to/tf_directory --var key=value --var key=value
 
 Options:
   -p, --path TEXT  Path to Terraform directory.  [required]
