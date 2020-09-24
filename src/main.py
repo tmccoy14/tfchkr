@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 VERSION = "0.1.0"
-CONTEXT_SETTINGS = dict(auto_envvar_prefix="TFTEST")
+CONTEXT_SETTINGS = dict(auto_envvar_prefix="TFCHKR")
 HOME = str(Path.home())
 
 
@@ -14,7 +14,7 @@ HOME = str(Path.home())
 def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
         return
-    click.secho("tftest version: v%s" % VERSION, fg="blue")
+    click.secho("tfchkr version: v%s" % VERSION, fg="blue")
     ctx.exit()
 
 
@@ -65,7 +65,7 @@ pass_environment = click.make_pass_decorator(Environment, ensure=True)
 cmd_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), "commands"))
 
 
-class TFTEST_CLI(click.MultiCommand):
+class TFCHKR_CLI(click.MultiCommand):
     def list_commands(self, ctx):
         rv = []
         for filename in os.listdir(cmd_folder):
@@ -90,7 +90,7 @@ class TFTEST_CLI(click.MultiCommand):
         return mod.cli
 
 
-@click.command(cls=TFTEST_CLI, context_settings=CONTEXT_SETTINGS)
+@click.command(cls=TFCHKR_CLI, context_settings=CONTEXT_SETTINGS)
 @click.option(
     "--home",
     type=click.Path(exists=True, file_okay=False, resolve_path=True),
@@ -103,12 +103,12 @@ class TFTEST_CLI(click.MultiCommand):
     callback=print_version,
     expose_value=False,
     is_eager=True,
-    help="Print the current version of tftest.",
+    help="Print the current version of tfchkr.",
 )
 @pass_environment
 def cli(ctx, verbose, home):
     """
-    tftest is a tool to run tests on Terraform modules and files.
+    tfchkr is a tool to run tests on Terraform modules and files.
     """
     ctx.verbose = verbose
     if home is not None:
