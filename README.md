@@ -1,6 +1,6 @@
-<img src="assets/tftest_logo.png" width="1000" height="400" />
+<img src="assets/tfchkr_logo.png" width="1000" height="400" />
 
-# Tftest is a Python Terraform testing framework.
+# Tfchkr is a Python Terraform testing framework.
 
 - [Introduction](#introduction)
 - [Setup](#setup)
@@ -8,29 +8,29 @@
 
 ### Introduction
 
-Tftest is a Python Terraform testing framework that allows us to isolate our infrastructure as code to test for errors and compliance. A lot of the time, we blindly create resources with Terraform hoping the commands will work smoothly and security vulnerabilities are none. We can now test this process before moving forward without throwing it over the wall hoping for the best. With running `tftest` you can now test the Terraform code base for any syntax errors, as well as vulnerability errors. It logs each command and returns the results at the end whether they were successful or failed. This serves as a repeatable process that can be ran locally or with a CICD pipeline.
+Tfchkr is a Python Terraform testing framework that allows us to isolate our infrastructure as code to test for errors and compliance. A lot of the time, we blindly create resources with Terraform hoping the commands will work smoothly and security vulnerabilities are none. We can now test this process before moving forward without throwing it over the wall hoping for the best. With running `tfchkr` you can now test the Terraform code base for any syntax errors, as well as vulnerability errors. It logs each command and returns the results at the end whether they were successful or failed. This serves as a repeatable process that can be ran locally or with a CICD pipeline.
 
 ### Setup
 
-The first thing you will need to do before installing `tftest` is configure a local virutal environment. If you currently don't have a virtual environment installed, I would highly recommend [pyenv](https://github.com/pyenv/pyenv).
+The first thing you will need to do before installing `tfchkr` is configure a local virutal environment. If you currently don't have a virtual environment installed, I would highly recommend [pyenv](https://github.com/pyenv/pyenv).
 
-Once you have a local virtual environment configured you only need to do a quick pip install of the `tftest` package.
+Once you have a local virtual environment configured you only need to do a quick pip install of the `tfchkr` package.
 
-Install and set up `tftest` for development
+Install and set up `tfchkr` for development
 
 ```sh
-$ cd tftest
+$ cd tfchkr
 
 $ pip install --editable .
-Obtaining file:///Users/tucker.m.mccoy/Github/tmccoy14/tftest
-Requirement already satisfied: Click==7.0 in /Users/tucker.m.mccoy/.pyenv/versions/3.7.3/envs/tftestcli/lib/python3.7/site-packages (from tftest==0.1) (7.0)
-Requirement already satisfied: colorama==0.4.3 in /Users/tucker.m.mccoy/.pyenv/versions/3.7.3/envs/tftestcli/lib/python3.7/site-packages (from tftest==0.1) (0.4.3)
-Installing collected packages: tftest
-  Found existing installation: tftest 0.1
-    Uninstalling tftest-0.1:
-      Successfully uninstalled tftest-0.1
-  Running setup.py develop for tftest
-Successfully installed tftest
+Obtaining file:///Users/tucker.m.mccoy/Github/tmccoy14/tfchkr
+Requirement already satisfied: Click==7.0 in /Users/tucker.m.mccoy/.pyenv/versions/3.7.3/envs/tfchkrcli/lib/python3.7/site-packages (from tfchkr==0.1) (7.0)
+Requirement already satisfied: colorama==0.4.3 in /Users/tucker.m.mccoy/.pyenv/versions/3.7.3/envs/tfchkrcli/lib/python3.7/site-packages (from tfchkr==0.1) (0.4.3)
+Installing collected packages: tfchkr
+  Found existing installation: tfchkr 0.1
+    Uninstalling tfchkr-0.1:
+      Successfully uninstalled tfchkr-0.1
+  Running setup.py develop for tfchkr
+Successfully installed tfchkr
 ```
 
 Note: the `--editable` flag will provide you with a way to hot reload changes
@@ -40,31 +40,31 @@ If you are trying to install the package for usage just run: `pip install .`.
 
 ### Getting Started
 
-Once you have successfully installed Tftest, you can confirm by running `tftest`
+Once you have successfully installed tfchkr, you can confirm by running `tfchkr`
 
 ```sh
-$ tftest
-Usage: tftest [OPTIONS] COMMAND [ARGS]...
+$ tfchkr
+Usage: tfchkr [OPTIONS] COMMAND [ARGS]...
 
-  tftest is a tool to run tests and compliance checks on Terraform modules and files.
+  tfchkr is a tool to run tests and compliance checks on Terraform modules and files.
 
 Options:
   --home DIRECTORY  Project folder to operate on.
   -v, --verbose     Enables verbose mode.
-  --version         Print the current version of tftest.
+  --version         Print the current version of tfchkr.
   --help            Show this message and exit.
 
 Commands:
   run  Run the tests.
 ```
 
-Tftest `run` has two commands, `tftest run test` and `tftest run compliance`, that will run the tests and compliance checks on the specified Terraform modules or files.
+tfchkr `run` has two commands, `tfchkr run test` and `tfchkr run compliance`, that will run the tests and compliance checks on the specified Terraform modules or files.
 
 ```sh
-$ tftest run --help
-Usage: tftest run [OPTIONS] COMMAND [ARGS]...
+$ tfchkr run --help
+Usage: tfchkr run [OPTIONS] COMMAND [ARGS]...
 
-  tftest test and compliance.
+  tfchkr test and compliance.
 
 Options:
   --help  Show this message and exit.
@@ -74,19 +74,19 @@ Commands:
   test        Run the tests.
 ```
 
-#### TFTEST RUN TEST
+#### TFCHKR RUN TEST
 
-The `tftest run test` command accepts two parameters, the path to the Terraform directory and variables needed for the Terraform files.
+The `tfchkr run test` command accepts two parameters, the path to the Terraform directory and variables needed for the Terraform files.
 
 ```sh
-$ tftest run test --help
-Usage: tftest run test [OPTIONS]
+$ tfchkr run test --help
+Usage: tfchkr run test [OPTIONS]
 
   Run the tests for the Terraform modules and files
 
-  Ex. tftest run test  -p path/to/tf_directory
+  Ex. tfchkr run test  -p path/to/tf_directory
 
-  Ex. tftest run test -p path/to/tf_directory --var key=value --var key=value
+  Ex. tfchkr run test -p path/to/tf_directory --var key=value --var key=value
 
 Options:
   -p, --path TEXT  Path to Terraform directory.  [required]
@@ -96,7 +96,7 @@ Options:
 
 ```sh
 # Run tests with with path only
-$ tftest run test -p examples/tfstate
+$ tfchkr run test -p examples/tfstate
 Initializing modules...
 
 Initializing the backend...
@@ -152,7 +152,7 @@ DESTROY -- SUCCESS
 
 ```sh
 # Run tests with path and variables
-$ tftest run test -p examples/tfstate_variables --var stage=terra --var name=testing
+$ tfchkr run test -p examples/tfstate_variables --var stage=terra --var name=testing
 Initializing modules...
 
 Initializing the backend...
@@ -206,17 +206,17 @@ APPLY -- SUCCESS
 DESTROY -- SUCCESS
 ```
 
-#### TFTEST RUN COMPLIANCE
+#### TFCHKR RUN COMPLIANCE
 
-The `tftest run compliance` command accepts one parameter, the path to the Terraform directory. Below are examples of how to use the two commands.
+The `tfchkr run compliance` command accepts one parameter, the path to the Terraform directory. Below are examples of how to use the two commands.
 
 ```sh
-$ tftest run compliance --help
-Usage: tftest run compliance [OPTIONS]
+$ tfchkr run compliance --help
+Usage: tfchkr run compliance [OPTIONS]
 
   Run the compliance checks for the Terraform modules and files
 
-  Ex. tftest compliance -p path/to/tf_directory
+  Ex. tfchkr compliance -p path/to/tf_directory
 
 Options:
   -p, --path TEXT  Path to Terraform directory.  [required]
@@ -224,7 +224,7 @@ Options:
 ```
 
 ```sh
-$ tftest run compliance -p examples/tfstate_variables
+$ tfchkr run compliance -p examples/tfstate_variables
 terraform scan results:
 
 Passed checks: 1, Failed checks: 0, Skipped checks: 0

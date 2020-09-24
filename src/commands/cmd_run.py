@@ -19,7 +19,7 @@ from src.lib.subprocess import Command
 @click.group("run", short_help="Run the tests and compliance checks on Terraform file.")
 @pass_environment
 def cli(ctx):
-    """tftest test and compliance."""
+    """tfchkr test and compliance."""
 
 
 @cli.command("test", short_help="Run the tests.")
@@ -32,8 +32,8 @@ def cli(ctx):
 @pass_environment
 def test(ctx, path, var):
     """Run the tests for the Terraform modules and files\n
-       Ex. tftest run -p path/to/tf_directory\n
-       Ex. tftest run -p path/to/tf_directory --var key=value --var key=value"""
+       Ex. tfchkr run -p path/to/tf_directory\n
+       Ex. tfchkr run -p path/to/tf_directory --var key=value --var key=value"""
 
     # Ensure path provided to Terraform directory exists
     tf_directory = os.path.join(path)
@@ -104,7 +104,7 @@ def test(ctx, path, var):
 @pass_environment
 def compliance(ctx, path):
     """Run the compliance checks for the Terraform modules and files\n
-       Ex. tftest compliance -p path/to/tf_directory"""
+       Ex. tfchkr compliance -p path/to/tf_directory"""
 
     # Setup command subprocess
     checkov_command = Command("checkov")
