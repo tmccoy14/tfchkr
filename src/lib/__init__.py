@@ -55,6 +55,30 @@ def tf_init(ctx, tf_command, tf_directory, var):
     return result.returncode
 
 
+def tf_plan(ctx, tf_command, tf_directory, var):
+    """Run terraform plan"""
+
+    tfstate_directory = os.path.join(tf_directory)
+    prefix_command = "cd {0} &&".format(tfstate_directory)
+    if var:
+        vars = generate_variables_string(var)
+        process = tf_command.prefix_run(prefix_command, "plan {}".format(vars))
+    else:
+        process = tf_command.prefix_run(prefix_command, "plan")
+
+    while process.poll() is None:
+        line = process.stdout.readline()
+        print(line.decode("utf-8").rstrip())
+
+    output, error = process.communicate()
+    if process.returncode != 0:
+        ctx.log("Could not create resource", level="error")
+        ctx.log("%s" % error.decode("utf-8"))
+    ctx.vlog("%s" % output.decode("utf-8"))
+
+    return process.returncode
+
+
 def tf_apply(ctx, tf_command, tf_directory, var):
     """Run terraform apply"""
 

@@ -10,6 +10,7 @@ from src.main import pass_environment
 from src.lib import (
     check_tf_extension,
     tf_init,
+    tf_plan,
     tf_apply,
     tf_destroy,
 )
@@ -58,6 +59,9 @@ def test(ctx, path, var):
     # Run terraform init command to initialize a working directory
     init_result = tf_init(ctx, tf_command, tf_directory, var)
 
+    # Run terraform plan command to create an execution plan
+    plan_result = tf_plan(ctx, tf_command, tf_directory, var)
+
     # Run terraform/terragrunt apply command to apply new resources or changes
     apply_result = tf_apply(ctx, tf_command, tf_directory, var)
 
@@ -67,7 +71,7 @@ def test(ctx, path, var):
     # Output whether the tests ran were succesful or failed
     passed_checks = 0
     failed_checks = 0
-    for check in [init_result, apply_result, destroy_result]:
+    for check in [init_result, plan_result, apply_result, destroy_result]:
         if check == 0:
             passed_checks += 1
         else:
@@ -87,8 +91,12 @@ def test(ctx, path, var):
         ctx.log("INIT -- SUCCESS")
     else:
         ctx.log("INIT -- FAILED", level="error")
+    if plan_result == 0:
+        ctx.log("PLAN -- SUCCESS")
+    else:
+        ctx.log("PLAN -- FAILED", level="error")
     if apply_result == 0:
-        ctx.log("APPLY -- SUCCESS", level="warning")
+        ctx.log("APPLY -- SUCCESS")
     else:
         ctx.log("APPLY -- FAILED", level="error")
     if destroy_result == 0:
