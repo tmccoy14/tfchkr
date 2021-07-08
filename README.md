@@ -8,6 +8,8 @@
 
 ### Introduction
 
+testing comment
+
 Tfchkr is a Python Terraform testing framework that allows us to isolate our infrastructure as code to test for errors and compliance. A lot of the time, we blindly create resources with Terraform hoping the commands will work smoothly and security vulnerabilities are none. We can now test this process before moving forward without throwing it over the wall hoping for the best. With running `tfchkr` you can now test the Terraform code base for any syntax errors, as well as vulnerability errors. It logs each command and returns the results at the end whether they were successful or failed. This serves as a repeatable process that can be ran locally or with a CICD pipeline.
 
 ### Setup
